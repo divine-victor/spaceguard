@@ -1,28 +1,25 @@
 # SpaceGuard
 
-A lightweight, blazing-fast static analysis tool for C that catches spatial memory violations (buffer overflows, use-after-free, format strings) directly in VS Code.
-
-Unlike enterprise tools that take 40 minutes to scan a codebase, SpaceGuard uses Tree-sitter to build an AST and report vulnerabilities in **milliseconds** as you type.
-
-## Why?
-60% of severe CVEs are caused by memory unsafety in C/C++. AI coding assistants (Copilot, ChatGPT) frequently hallucinate unsafe C code. SpaceGuard acts as a real-time guardrail.
+SpaceGuard is a static analysis engine for C code. It detects spatial memory violations—such as buffer overflows, integer wrap-arounds, use-after-free, and format string vulnerabilities—directly inside your editor.
 
 ## Features
-- **Buffer Overflows:** Catches `strcpy`/`strcat` writing more bytes than the destination array holds.
-- **Format Strings:** Flags `printf(user_input)` vulnerabilities.
-- **Use-After-Free:** Tracks variables after `free()` is called.
-- **Zero Dependencies:** The analysis engine is compiled into a standalone binary. No Python or Node required.
 
-## Installation
-1. Download the `spaceguard-0.0.1.vsix` from the releases tab.
-2. Open VS Code -> Extensions -> `...` -> **Install from VSIX**.
+- **AST-Based Analysis:** Uses `tree-sitter` to parse the true structure of C code, ignoring comments and formatting.
+- **Spatial Tracking:** Maintains a symbol table to track declared buffer sizes.
+- **Real-Time Diagnostics:** Red squiggly lines appear under unsafe function calls as you type.
+- **Compiled Engine:** No Python installation required. The analysis engine is compiled into a standalone binary.
 
 ## Usage
-Just open any `.c` file. The engine runs in the background.
 
-![SpaceGuard in action](https://via.placeholder.com/600x200.png?text=Hover+over+the+red+line+to+see+the+byte+overflow)
+1. Open any `.c` file in VS Code.
+2. The extension will automatically scan the file.
+3. Hover over any red squiggly lines to see the exact spatial violation and byte size mismatch.
 
-## Roadmap
-- [ ] Cross-file analysis (`#include`)
-- [ ] Pointer arithmetic tracking
-- [ ] CI/CD GitHub Action
+## Vulnerabilities Detected
+
+- `strcpy` / `strcat` buffer overflows
+- `malloc` integer overflow (calculation explosion)
+- Use-After-Free (UAF)
+- Double Free
+- Format String vulnerabilities (`printf` with user input)
+- Off-by-One errors (`<=` in loops)
