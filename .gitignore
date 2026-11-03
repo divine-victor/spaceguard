@@ -1,0 +1,7 @@
+node_modules/
+out/
+server_bin/
+build/
+dist/
+*.vsix
+*.exe
